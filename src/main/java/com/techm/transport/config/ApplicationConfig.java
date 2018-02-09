@@ -1,4 +1,4 @@
-package com.chandana.helloworld.config;
+package com.techm.transport.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ public class ApplicationConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(getApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.chandana.helloworld.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("com.techm.transport.controllers"))
                 .paths(PathSelectors.any())
                 .build();
     }

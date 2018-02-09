@@ -1,4 +1,4 @@
-package com.chandana.helloworld.bean;
+package com.techm.transport.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 
