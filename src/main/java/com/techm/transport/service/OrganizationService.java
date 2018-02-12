@@ -1,58 +1,74 @@
 package com.techm.transport.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.techm.transport.entity.City;
 import com.techm.transport.entity.Organization;
+import com.techm.transport.entity.SampleData;
 
 @Service
 public class OrganizationService{
 
-	private static final AtomicLong counter = new AtomicLong();
-	private static List<Organization> list;
+	@Autowired
+	CityService cityService;
+	
+	private static List<Organization> orgList;
 
 	static{
-		list= populateDummy();
+		orgList= SampleData.populateOrgs();
 	}
+	
+	
 
 	public List<Organization> getAllOrganizations(){
-		return list;
+		return orgList;
 	}
 
-	public synchronized boolean addOrganization(Organization org) {
-		if (list.contains(org)) {
+	public synchronized boolean addOrganization(String orgName) {
+		if (getOrganizationByName(orgName)!=null) {
 			return false;
 		} else {
-			list.add(org);
+			orgList.add(new Organization((int)SampleData.orgCounter.incrementAndGet(), orgName));
 			return true;
 		}
 	}
 
 
 	public void updateOrganization(Organization org) {
-		if (list.contains(org)) {
-			int index = list.indexOf(org);
-			list.set(index, org);
+		if (orgList.contains(org)) {
+			int index = orgList.indexOf(org);
+			orgList.set(index, org);
 		} 
 	}
 
 	public void deleteOrganization(Integer id) {
-		for (Organization organization : list) {
+		for (Organization organization : orgList) {
 			if (organization.getId()==id) {
-				list.remove(organization);
+				orgList.remove(organization);
 				break;
 			}
 		}
 	}
 
-	public Organization getOrganizationyId(Integer id) {
+	public Organization getOrganizationById(Integer id) {
 		Organization org = null;
-		for (Organization organization : list) {
+		for (Organization organization : orgList) {
 			if (organization.getId()==id) {
+				org = organization;
+				break;
+			}
+		}
+		return org;
+	}
+	
+	public Organization getOrganizationByName(String orgName) {
+		Organization org = null;
+		for (Organization organization : orgList) {
+			if (organization.getOrgName().equalsIgnoreCase(orgName)) {
 				org = organization;
 				break;
 			}
@@ -65,13 +81,16 @@ public class OrganizationService{
 		return org;
 	}*/
 	
-	private static List<Organization> populateDummy(){
-		List<Organization> users = new ArrayList<Organization>();
-		users.add(new Organization(counter.incrementAndGet(), "Tech Mahindra", new Date(), "Admin"));
-		users.add(new Organization(counter.incrementAndGet(), "Nissan", new Date(), "Admin"));
-		users.add(new Organization(counter.incrementAndGet(), "Arthrex", new Date(), "Admin"));
-		users.add(new Organization(counter.incrementAndGet(), "Valeo", new Date(), "Admin"));
-		return users;	
+	public Organization getCitiesOfOrg(Integer orgId) {
+		Organization org = getOrganizationById(orgId);
+		List<City> cities = new ArrayList<City>();
+		for (City c : cityService.getAllCities()) {
+			if (c.getOrgId()==orgId) {
+				cities.add(c);
+			}
+		}
+		org.setCities(cities);
+		return org;
 	}
 
 }

@@ -1,5 +1,12 @@
 package com.techm.transport.entity;
-import java.util.Date;
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 
 //import javax.persistence.Column;
 //import javax.persistence.Entity;
@@ -10,43 +17,49 @@ import java.util.Date;
 
 //@Entity
 //@Table(name="tbl_organization")
+@JsonPropertyOrder({"id", "name", "cities"})
 public class Organization{
 	
 //	@Id
 //	@GeneratedValue(strategy=GenerationType.AUTO)
 //	@Column(name = "id", updatable = false, nullable = false)
-	private long id;
+	@JsonProperty("id")
+	private Integer id;
 	
 //	@Column(name="name")
+	@JsonProperty("orgName")
 	private String	orgName;
 	
 //	@Column(name="created_at")
-	private Date createdAt;
+//	private Date createdAt;
 	
 //	@Column(name="created_by")
-	private String	createdBy;
+//	private String	createdBy;
 	
 //	@Column(name="updated_at")
-	private Date	updatedAt;
+//	private Date	updatedAt;
 	
 //	@Column(name="updated_by")
-	private String	updatedBy;
+//	private String	updatedBy;
 	
-	public Organization(long id, String orgName) {
-		this.orgName = orgName;
-	}
-	public Organization(long id, String orgName, Date createdAt, String createdBy) {
+	@JsonInclude(Include.NON_NULL)
+	private List<City> cities;
+	
+	public Organization(Integer id, String orgName) {
 		this.id = id;
 		this.orgName = orgName;
-		this.createdAt = createdAt;
-		this.createdBy = createdBy;
+	}
+	public Organization(Integer id, String orgName, List<City> cities) {
+		this.id = id;
+		this.orgName = orgName;
+		this.cities = cities;
 	}
 	
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -58,7 +71,7 @@ public class Organization{
 		this.orgName = orgName;
 	}
 
-	public Date getCreatedAt() {
+	/*public Date getCreatedAt() {
 		return createdAt;
 	}
 
@@ -88,9 +101,14 @@ public class Organization{
 
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
+	}*/
+	
+	public List<City> getCities() {
+		return cities;
 	}
-	
-	
+	public void setCities(List<City> cities) {
+		this.cities = cities;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

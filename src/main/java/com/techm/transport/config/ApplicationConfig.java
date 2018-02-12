@@ -26,13 +26,11 @@ public class ApplicationConfig {
     }
 
     private ApiInfo getApiInfo() {
-        Contact contact = new Contact("Chandana Napagoda", "http://blog.napagoda.com", "cnapagoda@gmail.com");
+        Contact contact = new Contact("Satish Tiwari", "", "satishkumar.tiwari@techmahindra.com");
         return new ApiInfoBuilder()
-                .title("Example Api Title")
-                .description("Example Api Definition")
+                .title("Transport Service APIs")
+                .description("Api Definitions")
                 .version("1.0.0")
-                .license("Apache 2.0")
-                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0")
                 .contact(contact)
                 .build();
     }

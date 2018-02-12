@@ -1,6 +1,5 @@
 package com.techm.transport.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,16 +9,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.techm.transport.entity.City;
 import com.techm.transport.entity.Organization;
+import com.techm.transport.service.CityService;
 import com.techm.transport.service.OrganizationService;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,10 +33,13 @@ public class OrganizationController {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private OrganizationService service;
+	private OrganizationService orgService;
+	
+	@Autowired
+	private CityService cityService;
 
 
-	@GetMapping("org/{id}")
+	@GetMapping("orgs/{id}")
 	@ApiOperation(value = "Get all organizations", 
 			      notes="",
 			      response=Organization.class,
@@ -50,31 +52,49 @@ public class OrganizationController {
 					)
 	public ResponseEntity<Organization> getOrganization(@ApiParam(name = "id", value = "id of organization", required = true) @PathVariable("id") Integer id){
 		LOGGER.info("Getting organization details of id-" + id);
-		Organization org = service.getOrganizationyId(id);
+		Organization org = orgService.getOrganizationById(id);
 		return new ResponseEntity<Organization>(org, HttpStatus.OK);
 	}
 
 	@GetMapping("orgs")
 	public ResponseEntity<List<Organization>> getAllOrganization(){
 		LOGGER.info("Getting details of all organizations");
-		List<Organization> orgs = service.getAllOrganizations();
+		List<Organization> orgs = orgService.getAllOrganizations();
 		return new ResponseEntity<List<Organization>>(orgs, HttpStatus.OK);
 	}
 
-	@PostMapping("orgs")
-	public ResponseEntity<Void> addOrganization(@RequestBody Organization org, UriComponentsBuilder builder){
-		LOGGER.info("Adding organization. Organization id -\"+ id");
-		boolean flag = service.addOrganization(org);
+	@PostMapping("orgs/{orgName}")
+	public ResponseEntity<Void> addOrganization(@PathVariable("orgName") String name, UriComponentsBuilder builder){
+		LOGGER.info("Adding organization. Organization name -"+ name);
+		boolean flag = orgService.addOrganization(name);
 		if (!flag) {
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/org/{id}").buildAndExpand(org.getId()).toUri());
+//		headers.setLocation(builder.path("/org/{"+org.getId()+"}").buildAndExpand(org.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
+	
+	@PostMapping("orgs/{orgId}/cities/{cityName}")
+	public ResponseEntity<Void> addCity(@PathVariable("orgId") Integer orgId, @PathVariable("cityName") String cityName, UriComponentsBuilder builder){
+		LOGGER.info("Adding organization. City id -\"+ id");
+		boolean flag = cityService.addCity(orgId, cityName);
+		if (!flag) {
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
 
-	@PutMapping("org/{id}")
+		HttpHeaders headers = new HttpHeaders();
+//		headers.setLocation(builder.path("/org/{id}").buildAndExpand(city.getId()).toUri());
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("orgs/{orgId}/cities")
+	public ResponseEntity<Organization> getCitiesOfOrg(@PathVariable("orgId") Integer orgId){
+		Organization org = orgService.getCitiesOfOrg(orgId);
+		return new ResponseEntity<Organization>(org, HttpStatus.OK);
+	}
+	/*@PutMapping("org/{id}")
 	public ResponseEntity<Organization> updateOrganization(@PathVariable("id") Integer id, @RequestBody Organization org){
 		LOGGER.info("Updating organization. Organization id -"+ id);
 		//logger.info("Updating with id {}", id);
@@ -86,7 +106,7 @@ public class OrganizationController {
 		}
 
 		currentOrg.setOrgName(org.getOrgName());
-		currentOrg.setUpdatedAt(new Date());
+//		currentOrg.setUpdatedAt(new Date());
 
 		service.updateOrganization(org);
 		return new ResponseEntity<Organization>(org, HttpStatus.OK);
@@ -98,5 +118,5 @@ public class OrganizationController {
 		service.deleteOrganization(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
-
+*/
 }

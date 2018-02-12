@@ -1,69 +1,71 @@
 package com.techm.transport.entity;
 
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
 
 @JsonPropertyOrder({"id", "name"})
-public class City {
+public class Location {
 	
 	@JsonProperty("id")
 	private Integer id;
+	
 	@JsonProperty("name")
 	private String name;
-	private Integer orgId;
 	
-	@JsonInclude(Include.NON_NULL)
-	private List<Location> locs;
+	private Integer cityId;
 	
-	public City(Integer id, String name, Integer orgId) {
+	@JsonIgnore
+	private Integer journeyType;
+	
+	public Location(Integer id, String name, Integer cityId, Integer journeyType) {
 		this.id = id;
 		this.name = name;
-		this.orgId = orgId;
+		this.cityId = cityId;
+		this.journeyType = journeyType;
 	}
 	
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@JsonIgnore
+	public Integer getCityId() {
+		return cityId;
+	}
 
 	@JsonIgnore
-	public Integer getOrgId() {
-		return orgId;
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
 	}
 	
-	@JsonIgnore
-	public void setOrgId(Integer orgId) {
-		this.orgId = orgId;
+	public Integer getJourneyType() {
+		return journeyType;
 	}
-	
-	public List<Location> getLocs() {
-		return locs;
+	public void setJourneyType(Integer journeyType) {
+		this.journeyType = journeyType;
 	}
-	public void setLocs(List<Location> locs) {
-		this.locs = locs;
-	}
+
 	@Override
     public int hashCode() 
     {
         final int prime = 31;
         int result = 1;
         result = prime * result + (int) (id ^ (id >>> 32));
-        result = prime * result + (int) (orgId ^ (orgId >>> 32));
+        result = prime * result + (int) (cityId ^ (cityId >>> 32));
         return result;
     }
 
@@ -76,11 +78,10 @@ public class City {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        City other = (City) obj;
-        if (id != other.id && orgId != other.orgId)
+        Location other = (Location) obj;
+        if (id != other.id && cityId != other.cityId)
             return false;
         return true;
     }
-	
 
 }
