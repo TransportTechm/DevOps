@@ -15,8 +15,11 @@ public class City {
 	
 	@JsonProperty("id")
 	private Integer id;
+	
 	@JsonProperty("name")
 	private String name;
+	
+	@JsonIgnore
 	private Integer orgId;
 	
 	@JsonInclude(Include.NON_NULL)
