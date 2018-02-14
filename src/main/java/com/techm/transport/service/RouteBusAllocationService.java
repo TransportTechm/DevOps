@@ -15,9 +15,6 @@ public class RouteBusAllocationService {
 
 	private static List<RouteBusAllocation> list;
 	
-	@Autowired
-	LocationService locationService;
-
 	static{
 		list= SampleData.populateRouteBusAllocation();
 	}
@@ -52,15 +49,12 @@ public class RouteBusAllocationService {
 		}
 	}
 
-	public List<Integer> getRouteBusAllocation(Integer locId, Integer journeyTypeId) {
+	public List<Integer> getRoutesOfjourneyTypeId(Integer journeyTypeId) {
 		List<Integer> routeBusAllocs = new ArrayList<Integer>();
 		for (RouteBusAllocation rbusAllo : list) {
-			Integer lid = rbusAllo.getLocationId();
-			if (lid.intValue()==locId.intValue()) {
-				Location loc = locationService.getLocationById(lid);
-				if (loc.getJourneyType().intValue()==journeyTypeId.intValue()) {
-					routeBusAllocs.add(rbusAllo.getRouteNo());
-				}
+			Integer jtId = rbusAllo.getJourneyTypeId();
+			if (jtId.intValue()==journeyTypeId.intValue()) {
+				routeBusAllocs.add(rbusAllo.getRouteNo());
 			}
 		}
 		return routeBusAllocs;

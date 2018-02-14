@@ -14,16 +14,13 @@ public class Location {
 	@JsonProperty("name")
 	private String name;
 	
+	@JsonIgnore
 	private Integer cityId;
 	
-	@JsonIgnore
-	private Integer journeyType;
-	
-	public Location(Integer id, String name, Integer cityId, Integer journeyType) {
+	public Location(Integer id, String name, Integer cityId) {
 		this.id = id;
 		this.name = name;
 		this.cityId = cityId;
-		this.journeyType = journeyType;
 	}
 	
 	public Integer getId() {
@@ -42,23 +39,14 @@ public class Location {
 		this.name = name;
 	}
 	
-	@JsonIgnore
 	public Integer getCityId() {
 		return cityId;
 	}
 
-	@JsonIgnore
 	public void setCityId(Integer cityId) {
 		this.cityId = cityId;
 	}
 	
-	public Integer getJourneyType() {
-		return journeyType;
-	}
-	public void setJourneyType(Integer journeyType) {
-		this.journeyType = journeyType;
-	}
-
 	@Override
     public int hashCode() 
     {

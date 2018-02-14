@@ -1,9 +1,11 @@
 package com.techm.transport.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.techm.transport.entity.City;
 import com.techm.transport.entity.Location;
 import com.techm.transport.entity.SampleData;
 
@@ -28,6 +30,15 @@ public class LocationService{
 			return true;
 		}
 	}
+	
+	public synchronized boolean addLocationToCity(String locName, Integer cityId) {
+		if (getLocationsByNameAndCityId(locName, cityId)!=null) {
+			return false;
+		} else {
+			list.add(new Location((int)SampleData.locCounter.incrementAndGet(), locName, cityId));
+			return true;
+		}
+	}
 
 
 	public void updateLocation(Location loc) {
@@ -38,23 +49,41 @@ public class LocationService{
 	}
 
 	public void deleteLocation(Integer id) {
-		for (Location Location : list) {
-			if (Location.getId()==id) {
-				list.remove(Location);
+		for (Location loc : list) {
+			if (loc.getId().intValue()==id.intValue()) {
+				list.remove(loc);
 				break;
 			}
 		}
 	}
 
 	public Location getLocationById(Integer id) {
-		Location loc = null;
-		for (Location Location : list) {
-			if (Location.getId().intValue()==id.intValue()) {
-				loc = Location;
+		Location currentloc = null;
+		for (Location loc : list) {
+			if (loc.getId().intValue()==id.intValue()) {
+				currentloc = loc;
 				break;
 			}
 		}
-		return loc;
+		return currentloc;
+	}
+	public List<Location> getLocationsByCityId(Integer id) {
+		List<Location> locs = new ArrayList<Location>();
+		for (Location loc : list) {
+			if (loc.getCityId().intValue()==id.intValue()) {
+				locs.add(loc);
+			}
+		}
+		return locs;
+	}
+	public List<Location> getLocationsByNameAndCityId(String locName, Integer id) {
+		List<Location> locs = new ArrayList<Location>();
+		for (Location loc : list) {
+			if (loc.getName().equalsIgnoreCase(locName) && loc.getCityId().intValue()==id.intValue()) {
+				locs.add(loc);
+			}
+		}
+		return locs;
 	}
 
 	/*public Location getLocationByName(String orgName) {

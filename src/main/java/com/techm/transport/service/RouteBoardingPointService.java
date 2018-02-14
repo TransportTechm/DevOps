@@ -64,7 +64,7 @@ public class RouteBoardingPointService{
 	public RouteBoardingPoint getRouteBoardingPoints(Integer id) {
 		RouteBoardingPoint org = null;
 		for (RouteBoardingPoint RouteBoardingPoint : list) {
-			if (RouteBoardingPoint.getRouteId()==id) {
+			if (RouteBoardingPoint.getRouteId().intValue()==id.intValue()) {
 				org = RouteBoardingPoint;
 				break;
 			}

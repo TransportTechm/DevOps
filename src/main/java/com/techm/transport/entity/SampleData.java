@@ -39,15 +39,30 @@ public class SampleData {
 
 	public static List<Location> populateLocations(){
 		List<Location> locs = new ArrayList<Location>();
-		locs.add(new Location((int)locCounter.incrementAndGet(), "Electronic city", 1001, 601));
-		locs.add(new Location((int)locCounter.incrementAndGet(), "Whitefield", 1001, 601));
-		locs.add(new Location((int)locCounter.incrementAndGet(), "hitech city", 1002, 601));
-		locs.add(new Location((int)locCounter.incrementAndGet(), "low tech city", 1002, 601));
-		locs.add(new Location((int)locCounter.incrementAndGet(), "Hinjewadi", 1003, 601));
-		locs.add(new Location((int)locCounter.incrementAndGet(), "Shaniwarwada", 1003, 601));
+		locs.add(new Location((int)locCounter.incrementAndGet(), "Electronic city", 1001));
+		locs.add(new Location((int)locCounter.incrementAndGet(), "Whitefield", 1001));
+		locs.add(new Location((int)locCounter.incrementAndGet(), "hitech city", 1002));
+		locs.add(new Location((int)locCounter.incrementAndGet(), "low tech city", 1002));
+		locs.add(new Location((int)locCounter.incrementAndGet(), "Hinjewadi", 1003));
+		locs.add(new Location((int)locCounter.incrementAndGet(), "Shaniwarwada", 1003));
 		return locs;	
 	}
 	
+	public static List<JourneyType> populateJourneyType(){
+		List<JourneyType> jTypes = new ArrayList<JourneyType>();
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Yearly Journey Ticket", 2001));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Single Journey Ticket",2001));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Yearly Journey Ticket", 2002));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Single Journey Ticket",2002));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Yearly Journey Ticket", 2003));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Single Journey Ticket",2003));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Yearly Journey Ticket", 2004));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Single Journey Ticket",2004));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Yearly Journey Ticket", 2005));
+		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Single Journey Ticket",2006));
+		return jTypes;	
+	}
+
 	public static List<BoardingPoint> populateBoardingPoints(){
 		List<BoardingPoint> bPoints = new ArrayList<BoardingPoint>();
 		bPoints.add(new BoardingPoint((int)bpCounter.incrementAndGet(), "JP Nagar"));
@@ -59,12 +74,6 @@ public class SampleData {
 		return bPoints;	
 	}
 	
-	public static List<JourneyType> populateJourneyType(){
-		List<JourneyType> jTypes = new ArrayList<JourneyType>();
-		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Yearly Journey Ticket"));
-		jTypes.add(new JourneyType((int)jtCounter.incrementAndGet(), "Single Journey Ticket"));
-		return jTypes;	
-	}
 	
 	public static List<RouteBoardingPoint> populateRouteBoardingPoints(){
 		List<RouteBoardingPoint> rbps = new ArrayList<RouteBoardingPoint>();
@@ -79,8 +88,8 @@ public class SampleData {
 	
 	public static List<RouteBusAllocation> populateRouteBusAllocation(){
 		List<RouteBusAllocation> routeBusAllocs = new ArrayList<RouteBusAllocation>();
-		routeBusAllocs.add(new RouteBusAllocation((int)rbAllCounter.incrementAndGet(), 101, 1234, 2001));
-		routeBusAllocs.add(new RouteBusAllocation((int)rbAllCounter.incrementAndGet(), 102, 1234, 2002));
+		routeBusAllocs.add(new RouteBusAllocation((int)rbAllCounter.incrementAndGet(), 101, 1234, 601));
+		routeBusAllocs.add(new RouteBusAllocation((int)rbAllCounter.incrementAndGet(), 102, 1234, 601));
 		return routeBusAllocs;	
 	}
 

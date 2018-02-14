@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.techm.transport.entity.Greeting;
 
-@RestController
+//@RestController
 @RequestMapping("/api")
 @Api(value = "user", description = "Rest API for user operations", tags = "User API")
 public class HelloWorldController {

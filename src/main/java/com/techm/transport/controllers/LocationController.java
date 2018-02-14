@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.techm.transport.entity.City;
-import com.techm.transport.service.CityService;
+import com.techm.transport.entity.Location;
+import com.techm.transport.service.LocationService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,16 +26,16 @@ import io.swagger.annotations.ApiResponses;
 
 @Controller
 @RequestMapping("transport/1.0")
-@Api(description="City operations", tags= {"Cities"})
-public class CityController {
+@Api(description="Location operations", tags= {"Locations"})
+public class LocationController {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private CityService service;
+	private LocationService service;
 
 
-	@ApiOperation(value = "${CityController.getCity}", response = City.class) 
+	@ApiOperation(value = "${LocationController.getLocation}", response = Location.class) 
 	@ApiResponses(value= {
 			@ApiResponse(code = 200, message = "Successfully get resource of given id"),
 			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
@@ -44,16 +44,16 @@ public class CityController {
 			@ApiResponse(code = 500, message = "Internal server error")
 							}
 					)
-	@GetMapping("cities/{cityId}")
-	public ResponseEntity<City> getCity(@ApiParam(name = "cityId", value = "id of city", required = true) @PathVariable("cityId") Integer id){
+	@GetMapping("locs/{locId}")
+	public ResponseEntity<Location> getLocation(@ApiParam(name = "locId", value = "id of Location", required = true) @PathVariable("locId") Integer id){
 		LOGGER.info("Getting organization details of id-" + id);
-		City city = service.getCityById(id);
-		return new ResponseEntity<City>(city, HttpStatus.OK);
+		Location Location = service.getLocationById(id);
+		return new ResponseEntity<Location>(Location, HttpStatus.OK);
 	}
 	
 	
 	
-	@ApiOperation(value = "${CityController.getCityByOrgId}", response = City.class) 
+	/*@ApiOperation(value = "${LocationController.getLocationByCityId}", response = Location.class) 
 	@ApiResponses(value= {
 			@ApiResponse(code = 200, message = "Successfully get resource of given id"),
 			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
@@ -62,14 +62,62 @@ public class CityController {
 			@ApiResponse(code = 500, message = "Internal server error")
 	}
 			)
-	@GetMapping("cities/{cityId}/locations")
-	public ResponseEntity<City> getLocsOfCity(@ApiParam(name = "cityId", value = "id of organization", required = true) @PathVariable("cityId") Integer id){
+	@GetMapping("locs/{cityId}")
+	public ResponseEntity<List<Location>> getLocationByCityId(@ApiParam(name = "cityId", value = "id of city", required = true) @PathVariable("cityId") Integer id){
 		LOGGER.info("Getting organization details of id-" + id);
-		City city = service.getLocsOfcity(id);
-		return new ResponseEntity<City>(city, HttpStatus.OK);
+		List<Location> locs = service.getLocationsByCityId(id);
+		return new ResponseEntity<List<Location>>(locs, HttpStatus.OK);
+	}*/
+	
+	
+	@PostMapping("locs/{locName}/city/{cityId}")
+	public ResponseEntity<Void> addLocation(@ApiParam(name = "locName", value = "Name of location", required = true) @PathVariable("locName") String locName,
+											@ApiParam(name = "cityId", value = "Id of City", required = true) @PathVariable("cityId") Integer cityId, UriComponentsBuilder builder){
+//		LOGGER.info("Adding organization. Location id -\"+ id");
+		boolean flag = service.addLocationToCity(locName, cityId);
+		if (!flag) {
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+//		headers.setLocation(builder.path("/org/{id}").buildAndExpand(Location.getId()).toUri());
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "${CityController.addCity}") 
+	
+	/*@ApiOperation(value = "${LocationController.getLocation.locations}", response = Location.class) 
+	@ApiResponses(value= {
+			@ApiResponse(code = 200, message = "Successfully get resources"),
+			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
+			@ApiResponse(code = 500, message = "Internal server error")
+							}
+					)
+	@GetMapping("locs/{LocationId}/locs")
+	public ResponseEntity<Location> getLocsOfLocation(@ApiParam(name = "id", value = "id of Location", required = true)@PathVariable("LocationId") Integer LocationId){
+		Location Location = service.getLocsOfLocation(LocationId);
+		return new ResponseEntity<Location>(Location, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "${LocationController.getCities}", response = Location.class) 
+	@ApiResponses(value= {
+			@ApiResponse(code = 200, message = "Successfully get resources"),
+			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
+			@ApiResponse(code = 500, message = "Internal server error")
+							}
+					)
+	//@GetMapping("locs")
+	public ResponseEntity<List<Location>> getAllCities(){
+		LOGGER.info("Getting details of all locs");
+		List<Location> locs = service.getAllCities();
+		return new ResponseEntity<List<Location>>(locs, HttpStatus.OK);
+	}
+	
+	
+	@ApiOperation(value = "${LocationController.addLocation}") 
 	@ApiResponses(value= {
 			@ApiResponse(code = 201, message = "Successfully created resources"),
 			@ApiResponse(code = 401, message = "Not authorized to view the resources"),
@@ -79,74 +127,29 @@ public class CityController {
 			@ApiResponse(code = 500, message = "Internal server error")
 							}
 					)
-	@PostMapping("cities/{cityName}/org/{orgId}")
-	public ResponseEntity<Void> addCity(@ApiParam(name = "cityName", value = "name of city", required = true) @PathVariable("cityName") String cityName,
-										@ApiParam(name = "orgId", value = "id of organization", required = true) @PathVariable("orgId") Integer orgId, UriComponentsBuilder builder){
-//		LOGGER.info("Adding organization. City id -\"+ id");
-		boolean flag = service.addCity(orgId, cityName);
-		if (!flag) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
+	
 
-		HttpHeaders headers = new HttpHeaders();
-//		headers.setLocation(builder.path("/org/{id}").buildAndExpand(city.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-	}
-	
-	
-	/*@ApiOperation(value = "${CityController.getCity.locations}", response = City.class) 
-	@ApiResponses(value= {
-			@ApiResponse(code = 200, message = "Successfully get resources"),
-			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
-			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
-			@ApiResponse(code = 500, message = "Internal server error")
-							}
-					)
-	@GetMapping("cities/{cityId}/locs")
-	public ResponseEntity<City> getLocsOfcity(@ApiParam(name = "id", value = "id of city", required = true)@PathVariable("cityId") Integer cityId){
-		City city = service.getLocsOfcity(cityId);
-		return new ResponseEntity<City>(city, HttpStatus.OK);
-	}
-	
-	@ApiOperation(value = "${CityController.getCities}", response = City.class) 
-	@ApiResponses(value= {
-			@ApiResponse(code = 200, message = "Successfully get resources"),
-			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
-			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
-			@ApiResponse(code = 500, message = "Internal server error")
-							}
-					)
-	@GetMapping("cities")
-	public ResponseEntity<List<City>> getAllCities(){
-		LOGGER.info("Getting details of all cities");
-		List<City> cities = service.getAllCities();
-		return new ResponseEntity<List<City>>(cities, HttpStatus.OK);
-	}
-	
-	
-	@PutMapping("city/{id}")
-	public ResponseEntity<City> updateCity(@PathVariable("id") Integer id, @RequestBody City city){
+	@PutMapping("Location/{id}")
+	public ResponseEntity<Location> updateLocation(@PathVariable("id") Integer id, @RequestBody Location Location){
 		LOGGER.info("Updating organization. Organization id -"+ id);
 		//logger.info("Updating with id {}", id);
-		City currentCity = service.getCityById(id);
+		Location currentLocation = service.getLocationById(id);
 
-		if (currentCity == null) {
+		if (currentLocation == null) {
 			//logger.error("Unable to update. Org with id {} not found.", id);
 			return new ResponseEntity("Unable to update. Org with id "+id+" not found.", HttpStatus.NOT_FOUND);
 		}
 
-		currentCity.setName(city.getName());
+		currentLocation.setName(Location.getName());
 
-		service.updateCity(city);
-		return new ResponseEntity<City>(city, HttpStatus.OK);
+		service.updateLocation(Location);
+		return new ResponseEntity<Location>(Location, HttpStatus.OK);
 	}
 
-	@DeleteMapping("city/{id}")
-	public ResponseEntity<Void> deleteCity(@PathVariable("id") Integer id){
+	@DeleteMapping("Location/{id}")
+	public ResponseEntity<Void> deleteLocation(@PathVariable("id") Integer id){
 		LOGGER.info("Deleting organization. Organization id -"+ id);
-		service.deleteCity(id);
+		service.deleteLocation(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}*/
 

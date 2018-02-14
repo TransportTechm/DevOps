@@ -4,13 +4,13 @@ public class RouteBusAllocation {
 	private Integer id;
 	private Integer routeNo;
 	private Integer vehicleRegId;
-	private Integer locationId;
+	private Integer journeyTypeId;
 	
-	public RouteBusAllocation(Integer id, Integer routeNo, Integer vehicleRegId, Integer locationId) {
+	public RouteBusAllocation(Integer id, Integer routeNo, Integer vehicleRegId, Integer journeyTypeId) {
 		this.id=id;
 		this.routeNo = routeNo;
 		this.vehicleRegId = vehicleRegId;
-		this.locationId = locationId;
+		this.journeyTypeId = journeyTypeId;
 	}
 	
 	public Integer getId() {
@@ -31,11 +31,11 @@ public class RouteBusAllocation {
 	public void setVehicleRegId(Integer vehicleRegId) {
 		this.vehicleRegId = vehicleRegId;
 	}
-	public Integer getLocationId() {
-		return locationId;
+	public Integer getJourneyTypeId() {
+		return journeyTypeId;
 	}
-	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
+	public void setJourneyTypeId(Integer journeyTypeId) {
+		this.journeyTypeId = journeyTypeId;
 	}
 	
 }

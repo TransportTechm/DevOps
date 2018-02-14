@@ -21,6 +21,7 @@ import com.techm.transport.entity.Organization;
 import com.techm.transport.service.CityService;
 import com.techm.transport.service.OrganizationService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -28,6 +29,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Controller
 @RequestMapping("transport/1.0")
+@Api(description="Organization operations",tags= {"Organizations"})
 public class OrganizationController {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -35,36 +37,50 @@ public class OrganizationController {
 	@Autowired
 	private OrganizationService orgService;
 	
-	@Autowired
-	private CityService cityService;
-
-
-	@GetMapping("orgs/{id}")
-	@ApiOperation(value = "Get all organizations", 
-			      notes="",
-			      response=Organization.class,
-			      responseContainer="")
+	@ApiOperation(value = "${OrganizationController.getOrganization}") 
 	@ApiResponses(value= {
-			@ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 404, message = "Organization with given username does not exist"),
+			@ApiResponse(code = 200, message = "Successfully get resource of given id"),
+			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
 			@ApiResponse(code = 500, message = "Internal server error")
 							}
 					)
+	@GetMapping("orgs/{id}")
 	public ResponseEntity<Organization> getOrganization(@ApiParam(name = "id", value = "id of organization", required = true) @PathVariable("id") Integer id){
 		LOGGER.info("Getting organization details of id-" + id);
 		Organization org = orgService.getOrganizationById(id);
 		return new ResponseEntity<Organization>(org, HttpStatus.OK);
 	}
-
+	
+	/*@ApiOperation(value = "${OrganizationController.getAllOrganization}") 
+	@ApiResponses(value= {
+			@ApiResponse(code = 200, message = "Successfully get all resources"),
+			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
+			@ApiResponse(code = 500, message = "Internal server error")
+							}
+					)
 	@GetMapping("orgs")
 	public ResponseEntity<List<Organization>> getAllOrganization(){
 		LOGGER.info("Getting details of all organizations");
 		List<Organization> orgs = orgService.getAllOrganizations();
 		return new ResponseEntity<List<Organization>>(orgs, HttpStatus.OK);
-	}
-
-	@PostMapping("orgs/{orgName}")
-	public ResponseEntity<Void> addOrganization(@PathVariable("orgName") String name, UriComponentsBuilder builder){
+	}*/
+	
+	@ApiOperation(value = "${OrganizationController.addOrganization}") 
+	@ApiResponses(value= {
+			@ApiResponse(code = 201, message = "Successfully created resources"),
+			@ApiResponse(code = 401, message = "Not authorized to view the resources"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
+			@ApiResponse(code = 409, message = "Resource with given name already exists"),
+			@ApiResponse(code = 500, message = "Internal server error")
+							}
+					)
+	@PostMapping("orgs/{orgname}")
+	public ResponseEntity<Void> addOrganization(@ApiParam(name = "orgname", value = "name of organization", required = true) @PathVariable("orgname") String name, UriComponentsBuilder builder){
 		LOGGER.info("Adding organization. Organization name -"+ name);
 		boolean flag = orgService.addOrganization(name);
 		if (!flag) {
@@ -76,8 +92,19 @@ public class OrganizationController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 	
-	@PostMapping("orgs/{orgId}/cities/{cityName}")
-	public ResponseEntity<Void> addCity(@PathVariable("orgId") Integer orgId, @PathVariable("cityName") String cityName, UriComponentsBuilder builder){
+	/*@ApiOperation(value = "${OrganizationController.addCityInOrg}") 
+	@ApiResponses(value= {
+			@ApiResponse(code = 201, message = "Successfully created resources"),
+			@ApiResponse(code = 401, message = "Not authorized to view the resources"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
+			@ApiResponse(code = 409, message = "Resource with given name already exists"),
+			@ApiResponse(code = 500, message = "Internal server error")
+							}
+					)
+	@PostMapping("orgs/{orgId}/cities/{cityname}")
+	public ResponseEntity<Void> addCityInOrg(@ApiParam(name = "orgId", value = "id of organization", required = true) @PathVariable("orgId") Integer orgId,  
+											@ApiParam(name = "cityname", value = "name of city", required = true) @PathVariable("cityname") String cityName, UriComponentsBuilder builder){
 		LOGGER.info("Adding organization. City id -\"+ id");
 		boolean flag = cityService.addCity(orgId, cityName);
 		if (!flag) {
@@ -87,10 +114,19 @@ public class OrganizationController {
 		HttpHeaders headers = new HttpHeaders();
 //		headers.setLocation(builder.path("/org/{id}").buildAndExpand(city.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-	}
-	
+	}*/
+		
+	@ApiOperation(value = "${OrganizationController.getCitiesOfOrg}") 
+	@ApiResponses(value= {
+			@ApiResponse(code = 200, message = "Successfully get all resources"),
+			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
+			@ApiResponse(code = 500, message = "Internal server error")
+							}
+					)
 	@GetMapping("orgs/{orgId}/cities")
-	public ResponseEntity<Organization> getCitiesOfOrg(@PathVariable("orgId") Integer orgId){
+	public ResponseEntity<Organization> getCitiesOfOrg(@ApiParam(name = "orgId", value = "id of organization", required = true) @PathVariable("orgId") Integer orgId){
 		Organization org = orgService.getCitiesOfOrg(orgId);
 		return new ResponseEntity<Organization>(org, HttpStatus.OK);
 	}

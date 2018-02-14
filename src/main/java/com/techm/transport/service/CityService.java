@@ -16,8 +16,6 @@ public class CityService{
 	
 	@Autowired
 	LocationService locService;
-	@Autowired
-	OrganizationService orgService;
 
 	private static List<City> list;
 
@@ -65,14 +63,15 @@ public class CityService{
 	}
 
 	public City getCityById(Integer id) {
-		City city = null;
-		for (City cities : list) {
-			if (cities.getId().intValue()==id.intValue()) {
-				city = cities;
+		City currentCity = null;
+		for (City city : list) {
+			if (city.getId().intValue()==id.intValue()) {
+				currentCity = city;
 				break;
 			}
 		}
-		return city;
+		currentCity.setLocs(null);
+		return currentCity;
 	}
 	
 	public City getCityByName(String name) {
@@ -95,6 +94,16 @@ public class CityService{
 			}
 		}
 		return city;
+	}
+	
+	public List<City> getCitiesByOrgId(Integer id) {
+		List<City> cities = new ArrayList<City>();
+		for (City c : list) {
+			if (c.getOrgId().intValue()==id.intValue()) {
+				cities.add(c);
+			}
+		}
+		return cities;
 	}
 	
 	

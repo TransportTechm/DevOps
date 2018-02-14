@@ -20,13 +20,16 @@ public class RouteService{
 	@Autowired
 	BoardingPointService boardingPointService;
 
+	@Autowired
+	RouteBusAllocationService routeBusAllocationService;
+
 	private static List<Route> list;
 
 	static{
 		list= SampleData.populateRoutes();
 	}
 
-	public List<Route> getAllRoutes(){
+	/*public List<Route> getAllRoutes(){
 		for (Route route : list) {
 			int routeId = route.getRouteNo().intValue();
 			List<BoardingPoint> bpoints = new ArrayList<BoardingPoint>();
@@ -40,7 +43,7 @@ public class RouteService{
 			route.setBpoints(bpoints);
 		}
 		return list;
-	}
+	}*/
 
 	public synchronized boolean addRoute(Route org) {
 		if (list.contains(org)) {
@@ -68,7 +71,7 @@ public class RouteService{
 		}
 	}
 
-	public Route getRouteyId(Integer id) {
+	public Route getRouteById(Integer id) {
 		Route org = null;
 		for (Route Route : list) {
 			if (Route.getRouteNo()==id) {
@@ -80,7 +83,7 @@ public class RouteService{
 	}
 	
 	public Route getRouteBoardingPoints(Integer id) {
-		Route route = getRouteyId(id);
+		Route route = getRouteById(id);
 		List<BoardingPoint> bpoints = new ArrayList<BoardingPoint>();
 		for (RouteBoardingPoint rbp : routeBoardingPointService.getAllRouteBoardingPoints()) {
 			if (rbp.getRouteId().intValue()==id.intValue()) {
@@ -91,6 +94,16 @@ public class RouteService{
 		}
 		route.setBpoints(bpoints);
 		return route;
+	}
+	
+	public List<Route> getRoutesOfLocation(Integer journeyTypeId){
+		List<Route> routes = new ArrayList<Route>();
+		List<Integer> routeIds = routeBusAllocationService.getRoutesOfjourneyTypeId(journeyTypeId);
+		for (Integer routeId : routeIds) {
+			Route r = getRouteBoardingPoints(routeId);
+			routes.add(r);
+		}
+		return routes;
 	}
 
 	/*public Route getRouteByName(String orgName) {

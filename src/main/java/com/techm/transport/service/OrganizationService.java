@@ -62,6 +62,7 @@ public class OrganizationService{
 				break;
 			}
 		}
+		org.setCities(null);
 		return org;
 	}
 	
