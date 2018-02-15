@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+
+@CrossOrigin(origins="/**")
 @Controller
 @RequestMapping("transport/1.0")
 @Api(description="City operations", tags= {"Cities"})
@@ -63,7 +66,7 @@ public class CityController {
 	}
 			)
 	@GetMapping("cities/{cityId}/locations")
-	public ResponseEntity<City> getLocsOfCity(@ApiParam(name = "cityId", value = "id of organization", required = true) @PathVariable("cityId") Integer id){
+	public ResponseEntity<City> getLocsOfCity(@ApiParam(name = "cityId", value = "id of city", required = true) @PathVariable("cityId") Integer id){
 		LOGGER.info("Getting organization details of id-" + id);
 		City city = service.getLocsOfcity(id);
 		return new ResponseEntity<City>(city, HttpStatus.OK);

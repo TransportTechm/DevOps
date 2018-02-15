@@ -1,9 +1,13 @@
 package com.techm.transport.entity;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonPropertyOrder({"id", "name"})
 public class Location {
@@ -16,6 +20,9 @@ public class Location {
 	
 	@JsonIgnore
 	private Integer cityId;
+	
+	@JsonInclude(Include.NON_NULL)
+	private List<JourneyType> journeyTypes;
 	
 	public Location(Integer id, String name, Integer cityId) {
 		this.id = id;
@@ -47,6 +54,14 @@ public class Location {
 		this.cityId = cityId;
 	}
 	
+	public List<JourneyType> getJourneyTypes() {
+		return journeyTypes;
+	}
+
+	public void setJourneyTypes(List<JourneyType> journeyTypes) {
+		this.journeyTypes = journeyTypes;
+	}
+
 	@Override
     public int hashCode() 
     {

@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+
+@CrossOrigin(origins="/**")
 @Controller
 @RequestMapping("transport/1.0")
 @Api(description="Location operations", tags= {"Locations"})
@@ -45,9 +48,25 @@ public class LocationController {
 							}
 					)
 	@GetMapping("locs/{locId}")
-	public ResponseEntity<Location> getLocation(@ApiParam(name = "locId", value = "id of Location", required = true) @PathVariable("locId") Integer id){
+	public ResponseEntity<Location> getLocation(@ApiParam(name = "locId", value = "Id of location", required = true) @PathVariable("locId") Integer id){
 		LOGGER.info("Getting organization details of id-" + id);
 		Location Location = service.getLocationById(id);
+		return new ResponseEntity<Location>(Location, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "${LocationController.getJourneyTypesOfLocation}", response = Location.class) 
+	@ApiResponses(value= {
+			@ApiResponse(code = 200, message = "Successfully get resource of given id"),
+			@ApiResponse(code = 401, message = "Not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "Not found resource you were trying to get."),
+			@ApiResponse(code = 500, message = "Internal server error")
+	}
+			)
+	@GetMapping("locs/{locId}/journeyTypes")
+	public ResponseEntity<Location> getJourneyTypesOfLocation(@ApiParam(name = "locId", value = "Id of location", required = true) @PathVariable("locId") Integer id){
+		LOGGER.info("Getting organization details of id-" + id);
+		Location Location = service.getJourneyTypesOfLocation(id);
 		return new ResponseEntity<Location>(Location, HttpStatus.OK);
 	}
 	

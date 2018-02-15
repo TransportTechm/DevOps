@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.techm.transport.entity.BoardingPoint;
 import com.techm.transport.entity.Route;
 import com.techm.transport.entity.RouteBoardingPoint;
+import com.techm.transport.entity.RouteBusAllocation;
 import com.techm.transport.entity.SampleData;
 
 @Service
@@ -74,7 +75,7 @@ public class RouteService{
 	public Route getRouteById(Integer id) {
 		Route org = null;
 		for (Route Route : list) {
-			if (Route.getRouteNo()==id) {
+			if (Route.getRouteNo().intValue()==id.intValue()) {
 				org = Route;
 				break;
 			}
@@ -98,12 +99,23 @@ public class RouteService{
 	
 	public List<Route> getRoutesOfLocation(Integer journeyTypeId){
 		List<Route> routes = new ArrayList<Route>();
-		List<Integer> routeIds = routeBusAllocationService.getRoutesOfjourneyTypeId(journeyTypeId);
-		for (Integer routeId : routeIds) {
-			Route r = getRouteBoardingPoints(routeId);
+		List<RouteBusAllocation> routeIds = routeBusAllocationService.getRoutesOfjourneyTypeId(journeyTypeId);
+		for (RouteBusAllocation routeBusAlloc : routeIds) {
+			Route r = getRouteBoardingPoints(routeBusAlloc.getRouteNo());
+			r.setVehicleRegNO(routeBusAlloc.getVehicleRegId());
+			r.setSeatCapacity(routeBusAlloc.getSeatCapacity());
 			routes.add(r);
 		}
 		return routes;
+	}
+	public Route getRoute(Integer routId){
+		RouteBusAllocation rba = routeBusAllocationService.getRoutesByRouteId(routId);
+		Route route = getRouteById(routId);
+		route.setSeatCapacity(rba.getSeatCapacity());
+		route.setVehicleRegNO(rba.getVehicleRegId());
+		route.setBpoints(null);
+		
+		return route;
 	}
 
 	/*public Route getRouteByName(String orgName) {

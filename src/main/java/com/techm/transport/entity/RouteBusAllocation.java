@@ -3,13 +3,15 @@ package com.techm.transport.entity;
 public class RouteBusAllocation {
 	private Integer id;
 	private Integer routeNo;
-	private Integer vehicleRegId;
+	private String vehicleRegId;
+	private Integer seatCapacity;
 	private Integer journeyTypeId;
 	
-	public RouteBusAllocation(Integer id, Integer routeNo, Integer vehicleRegId, Integer journeyTypeId) {
+	public RouteBusAllocation(Integer id, Integer routeNo, String vehicleRegId, Integer seatCapacity, Integer journeyTypeId) {
 		this.id=id;
 		this.routeNo = routeNo;
 		this.vehicleRegId = vehicleRegId;
+		this.seatCapacity = seatCapacity;
 		this.journeyTypeId = journeyTypeId;
 	}
 	
@@ -25,10 +27,10 @@ public class RouteBusAllocation {
 	public void setRouteNo(Integer routeNo) {
 		this.routeNo = routeNo;
 	}
-	public Integer getVehicleRegId() {
+	public String getVehicleRegId() {
 		return vehicleRegId;
 	}
-	public void setVehicleRegId(Integer vehicleRegId) {
+	public void setVehicleRegId(String vehicleRegId) {
 		this.vehicleRegId = vehicleRegId;
 	}
 	public Integer getJourneyTypeId() {
@@ -36,6 +38,14 @@ public class RouteBusAllocation {
 	}
 	public void setJourneyTypeId(Integer journeyTypeId) {
 		this.journeyTypeId = journeyTypeId;
+	}
+
+	public Integer getSeatCapacity() {
+		return seatCapacity;
+	}
+
+	public void setSeatCapacity(Integer seatCapacity) {
+		this.seatCapacity = seatCapacity;
 	}
 	
 }

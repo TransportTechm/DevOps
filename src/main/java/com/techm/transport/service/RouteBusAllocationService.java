@@ -49,15 +49,25 @@ public class RouteBusAllocationService {
 		}
 	}
 
-	public List<Integer> getRoutesOfjourneyTypeId(Integer journeyTypeId) {
-		List<Integer> routeBusAllocs = new ArrayList<Integer>();
+	public List<RouteBusAllocation> getRoutesOfjourneyTypeId(Integer journeyTypeId) {
+		List<RouteBusAllocation> routeBusAllocs = new ArrayList<RouteBusAllocation>();
 		for (RouteBusAllocation rbusAllo : list) {
 			Integer jtId = rbusAllo.getJourneyTypeId();
 			if (jtId.intValue()==journeyTypeId.intValue()) {
-				routeBusAllocs.add(rbusAllo.getRouteNo());
+				routeBusAllocs.add(rbusAllo);
 			}
 		}
 		return routeBusAllocs;
+	}
+	public RouteBusAllocation getRoutesByRouteId(Integer routeId) {
+		RouteBusAllocation rba=null;
+		for (RouteBusAllocation rbusAllo : list) {
+			if (rbusAllo.getRouteNo().intValue()==routeId.intValue()) {
+				rba=rbusAllo;
+				break;
+			}
+		}
+		return rba;
 	}
 
 }

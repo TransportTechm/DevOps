@@ -1,5 +1,6 @@
 package com.techm.transport.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -49,12 +50,22 @@ public class JourneyTypeService{
 	public JourneyType getJourneyTypeyId(Integer id) {
 		JourneyType org = null;
 		for (JourneyType JourneyType : list) {
-			if (JourneyType.getId()==id) {
+			if (JourneyType.getId().intValue()==id.intValue()) {
 				org = JourneyType;
 				break;
 			}
 		}
 		return org;
+	}
+	
+	public List<JourneyType> getJourneyTypesByLocId(Integer id) {
+		List<JourneyType> journeyTypes = new ArrayList<JourneyType>();
+		for (JourneyType JourneyType : list) {
+			if (JourneyType.getLocId().intValue()==id.intValue()) {
+				journeyTypes.add(JourneyType);
+			}
+		}
+		return journeyTypes;
 	}
 
 }

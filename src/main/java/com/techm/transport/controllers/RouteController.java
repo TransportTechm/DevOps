@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+@CrossOrigin(origins="/**")
 @Controller
 @RequestMapping("transport/1.0")
 @Api(description="Route operations",tags= {"Routes"})
@@ -46,10 +48,10 @@ public class RouteController {
 			@ApiResponse(code = 500, message = "Internal server error")
 							}
 					)
-	//@GetMapping("routes/{id}")
-	public ResponseEntity<Route> getRouteBoardingPoints(@PathVariable("id") Integer id){
+	@GetMapping("routes/{routeId}")
+	public ResponseEntity<Route> getRouteBoardingPoints(@ApiParam(name = "routeId", value = "Id of route", required = true) @PathVariable("routeId") Integer id){
 		LOGGER.info("Getting Route details of id-" + id);
-		Route org = routeService.getRouteBoardingPoints(id);
+		Route org = routeService.getRoute(id);
 		return new ResponseEntity<Route>(org, HttpStatus.OK);
 	}
 	
@@ -101,7 +103,7 @@ public class RouteController {
 			@ApiResponse(code = 500, message = "Internal server error")
 							}
 					)
-	@GetMapping("routes/{journeytypeId}")
+	@GetMapping("routes/all/{journeytypeId}")
 	public ResponseEntity<List<Route>> getRoutesOfLocation(@ApiParam(name = "journeytypeId", value = "Id of journey type", required = true)@PathVariable("journeytypeId") Integer journeyTypeId){
 //		LOGGER.info("Getting RouteBoardingPoint details of id-" + id);
 		List<Route> routes = routeService.getRoutesOfLocation(journeyTypeId);

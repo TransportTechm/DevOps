@@ -3,14 +3,17 @@ package com.techm.transport.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.techm.transport.entity.City;
 import com.techm.transport.entity.Location;
 import com.techm.transport.entity.SampleData;
 
 @Service
 public class LocationService{
+	
+	@Autowired
+	JourneyTypeService journeyTypeService;
 
 	private static List<Location> list;
 
@@ -65,6 +68,7 @@ public class LocationService{
 				break;
 			}
 		}
+		currentloc.setJourneyTypes(null);
 		return currentloc;
 	}
 	public List<Location> getLocationsByCityId(Integer id) {
@@ -84,6 +88,12 @@ public class LocationService{
 			}
 		}
 		return locs;
+	}
+	
+	public Location getJourneyTypesOfLocation(Integer id) {
+		Location loc = getLocationById(id);
+		loc.setJourneyTypes(journeyTypeService.getJourneyTypesByLocId(id));
+		return loc;
 	}
 
 	/*public Location getLocationByName(String orgName) {

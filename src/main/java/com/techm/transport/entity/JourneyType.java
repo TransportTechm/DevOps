@@ -1,9 +1,13 @@
 package com.techm.transport.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class JourneyType {
 	
 	private Integer id;
 	private String name;
+	
+	@JsonIgnore
 	private Integer locId;
 	
 	public JourneyType(Integer id, String name, Integer locId) {

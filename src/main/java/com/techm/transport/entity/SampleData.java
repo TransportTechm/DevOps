@@ -88,8 +88,8 @@ public class SampleData {
 	
 	public static List<RouteBusAllocation> populateRouteBusAllocation(){
 		List<RouteBusAllocation> routeBusAllocs = new ArrayList<RouteBusAllocation>();
-		routeBusAllocs.add(new RouteBusAllocation((int)rbAllCounter.incrementAndGet(), 101, 1234, 601));
-		routeBusAllocs.add(new RouteBusAllocation((int)rbAllCounter.incrementAndGet(), 102, 1234, 601));
+		routeBusAllocs.add(new RouteBusAllocation((int)rbAllCounter.incrementAndGet(), 101, "KA-02-JJ-6950", 45, 601));
+		routeBusAllocs.add(new RouteBusAllocation((int)rbAllCounter.incrementAndGet(), 102, "KA-02-JJ-6950", 45, 601));
 		return routeBusAllocs;	
 	}
 

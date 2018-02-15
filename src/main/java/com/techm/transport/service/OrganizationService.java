@@ -86,7 +86,8 @@ public class OrganizationService{
 		Organization org = getOrganizationById(orgId);
 		List<City> cities = new ArrayList<City>();
 		for (City c : cityService.getAllCities()) {
-			if (c.getOrgId()==orgId) {
+			if (c.getOrgId().intValue()==orgId.intValue()) {
+				c.setLocations(null);
 				cities.add(c);
 			}
 		}

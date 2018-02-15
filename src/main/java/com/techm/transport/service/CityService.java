@@ -70,7 +70,7 @@ public class CityService{
 				break;
 			}
 		}
-		currentCity.setLocs(null);
+		currentCity.setLocations(null);
 		return currentCity;
 	}
 	
@@ -115,7 +115,7 @@ public class CityService{
 				locs.add(l);
 			}
 		}
-		city.setLocs(locs);
+		city.setLocations(locs);
 		return city;
 	}
 

@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+
+@CrossOrigin(origins="/**")
 @Controller
 @RequestMapping("transport/1.0")
 @Api(description="Organization operations",tags= {"Organizations"})
@@ -80,7 +83,7 @@ public class OrganizationController {
 							}
 					)
 	@PostMapping("orgs/{orgname}")
-	public ResponseEntity<Void> addOrganization(@ApiParam(name = "orgname", value = "name of organization", required = true) @PathVariable("orgname") String name, UriComponentsBuilder builder){
+	public ResponseEntity<Void> addOrganization(@ApiParam(name = "orgname", value = "Name of organization", required = true) @PathVariable("orgname") String name, UriComponentsBuilder builder){
 		LOGGER.info("Adding organization. Organization name -"+ name);
 		boolean flag = orgService.addOrganization(name);
 		if (!flag) {
@@ -126,7 +129,7 @@ public class OrganizationController {
 							}
 					)
 	@GetMapping("orgs/{orgId}/cities")
-	public ResponseEntity<Organization> getCitiesOfOrg(@ApiParam(name = "orgId", value = "id of organization", required = true) @PathVariable("orgId") Integer orgId){
+	public ResponseEntity<Organization> getCitiesOfOrg(@ApiParam(name = "orgId", value = "Id of organization", required = true) @PathVariable("orgId") Integer orgId){
 		Organization org = orgService.getCitiesOfOrg(orgId);
 		return new ResponseEntity<Organization>(org, HttpStatus.OK);
 	}

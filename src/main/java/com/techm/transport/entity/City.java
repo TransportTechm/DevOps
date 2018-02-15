@@ -23,7 +23,7 @@ public class City {
 	private Integer orgId;
 	
 	@JsonInclude(Include.NON_NULL)
-	private List<Location> locs;
+	private List<Location> locations;
 	
 	public City(Integer id, String name, Integer orgId) {
 		this.id = id;
@@ -54,11 +54,11 @@ public class City {
 		this.orgId = orgId;
 	}
 	
-	public List<Location> getLocs() {
-		return locs;
+	public List<Location> getLocations() {
+		return locations;
 	}
-	public void setLocs(List<Location> locs) {
-		this.locs = locs;
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
 	}
 	@Override
     public int hashCode() 
