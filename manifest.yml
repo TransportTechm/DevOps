@@ -1,5 +1,0 @@
----
-applications:
-- name: transportTechM
-  memory: 1G
-  instanceshttp://marketplace.eclipse.org/marketplace-client-intro?mpc_install=106257: 1

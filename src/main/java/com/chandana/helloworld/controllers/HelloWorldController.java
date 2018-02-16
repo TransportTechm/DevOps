@@ -1,21 +1,16 @@
-package com.techm.transport.controllers;
+package com.chandana.helloworld.controllers;
 
+import com.chandana.helloworld.bean.Greeting;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techm.transport.entity.Greeting;
-
-
-//@CrossOrigin
-//@RestController
+@RestController
 @RequestMapping("/api")
 @Api(value = "user", description = "Rest API for user operations", tags = "User API")
 public class HelloWorldController {

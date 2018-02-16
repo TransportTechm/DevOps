@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@CrossOrigin(origins="/**")
+//@CrossOrigin(origins="/**")
 @Controller
 @RequestMapping("transport/1.0")
 @Api(description="Route operations",tags= {"Routes"})

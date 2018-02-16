@@ -4,8 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.chandana</groupId>
-	<artifactId>helloworld</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>transportservice</artifactId>
 	<packaging>jar</packaging>
 
 	<name>helloworld</name>
@@ -73,4 +72,5 @@
 	</build>
 
 
+	<version>1.0.0.SNAPSHOT</version>
 </project>
